@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Homework02</string>
+    <string name="ThreadLable">For Thread</string>
+    <string name="AsyncLabel">For AsyncTask</string>
+    <string name="pwCountLabel">Select Password Count:</string>
+    <string name="pwLengthLabel">Select Password Length</string>
+    <string name="generateButton">Generate</string>
+    <string name="generatedThreadLabel">Passwords generated using Thread:</string>
+    <string name="generatedAsyncLabel">Passwords generated using AsyncTask</string>
+    <string name="finishedButton">Finished</string>
+</resources>
