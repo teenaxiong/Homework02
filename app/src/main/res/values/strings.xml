@@ -8,4 +8,5 @@
     <string name="generatedThreadLabel">Passwords generated using Thread:</string>
     <string name="generatedAsyncLabel">Passwords generated using AsyncTask</string>
     <string name="finishedButton">Finished</string>
+    <string name="generatingPass">Generating Password</string>
 </resources>
