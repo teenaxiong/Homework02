@@ -1,5 +1,4 @@
 package com.example.android.homework02;
-
 import java.util.Random;
 
 public class Util {
