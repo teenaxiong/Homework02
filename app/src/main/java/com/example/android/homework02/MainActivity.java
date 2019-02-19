@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     SeekBar asyncLengthSeekBar;
     int countasync;
     int lengthasync;
+    int countthread;
+    int lengththread;
     int progressStatus;
     Handler handler;
     ProgressBar bar;
@@ -57,15 +59,12 @@ public class MainActivity extends AppCompatActivity {
         threadLenth = findViewById(R.id.threadLengthTextView);
         asyncCount = findViewById(R.id.asyncCountTextView);
         asyncLenth = findViewById(R.id.asyncLengthTextView);
-        handler = new Handler();
-
-
-
         threadCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 i = i + 1;
                 threadCount.setText(String.valueOf(i));
+                countthread = i;
 
             }
             @Override
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 i = i + 7;
                 threadLenth.setText(String.valueOf(i));
+                lengththread = i;
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         findViewById(R.id.generateButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 bar.setMax(2);
                 //setMax is the total count from both asyncCountSeekBar and threadCount
                     new MyBar().execute();
+                    new Thread(new ThreadGenerator()).start();
 
             }
         });
@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     asyncArrayList.add(s);
                     publishProgress(1);
                 }
-                Log.d("demo","list"+asyncArrayList);
                 return asyncArrayList;
             }
             @Override
@@ -168,19 +167,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-    class threadGenerator implements Runnable {
+    class ThreadGenerator implements Runnable {
+        static final int STATUS_START = 0x00;
+        static final int STATUS_PROGRESS =0x01;
+        static final int STATUS_STOP = 0x02;
         @Override
-        public void run() {
-//            for (int i = 0; i < countasync; i++) {
-//                String s = Util.getPassword(lengthasync);
-//                asyncArrayList.add(s);
-//            }
-//            Message m = new Message();
-//            m.what = progressStatus;
-//            handler.sendMessage(m);
-//            Message message = new Message();
-//            message.obj = threadArrayList;
-
+        public void run(){
+            Message message = new Message();
+            message.what = STATUS_START;
+            handler.sendMessage(message);
+            Util util = new Util();
+            for (int i = 0; i < countthread; i++) {
+                String s = util.getPassword(lengththread);
+                threadArrayList.add(s);
+            }
+            Log.d("demo2","list"+threadArrayList);
+            message.obj = threadArrayList;
+            handler.sendMessage(message);
         }
     }
 }
