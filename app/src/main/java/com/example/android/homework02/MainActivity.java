@@ -1,3 +1,8 @@
+//Teena Xiong
+// Shikha Bhattarai
+//
+//hw 02
+//Password Generator
 package com.example.android.homework02;
 
 import android.content.Intent;
@@ -6,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -21,12 +25,6 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     ExecutorService threadpool;
-    TextView threadPWcountLabel;
-    TextView threadTitle;
-    TextView threadPWlengthLabel;
-    TextView asyncTitle;
-    TextView pbar;
-    TextView asyncPWlengthLabel;
     TextView threadCount;
     TextView threadLenth;
     TextView asyncCount;
@@ -39,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
     int lengthasync;
     int countthread;
     int lengththread;
-    int progressStatus;
     Handler handler;
     ProgressBar bar;
-    ProgressBar progressBar;
     ArrayList<String> asyncArrayList;
     ArrayList<String> threadArrayList;
     static String THREAD_KEY = "THREAD";
@@ -151,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
-                    bar = (ProgressBar) findViewById(R.id.pbar);
+                    bar = findViewById(R.id.pbar);
                     bar.setProgress(0);
                     threadCountInteger = Integer.parseInt(threadCountString);
                     asyncCountInteger = Integer.parseInt(asyncCountString);
@@ -204,19 +200,19 @@ public class MainActivity extends AppCompatActivity {
                     threadpool.execute(new ThreadGenerator());
                 }
             }
-        });
+        });//end of onlick button
+
     }//end of oncreate
 
-    private class MyBar extends AsyncTask<Integer, Integer, ArrayList<String>> {
+    private class MyBar extends AsyncTask<Integer, Integer, ArrayList> {
         @Override
         protected void onPreExecute() {
         }
 
         @Override
         protected ArrayList doInBackground(Integer... params) {
-            Util util = new Util();
             for (int i = 0; i < countasync; i++) {
-                String s = util.getPassword(lengthasync);
+                String s = Util.getPassword(lengthasync);
                 asyncArrayList.add(s);
                 publishProgress(1);
             }
@@ -232,12 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList s) {
-
-            //super.onPostExecute(s);
-            //Intent intent = new Intent(MainActivity.this, GeneratedPasswords.class);
             intent.putStringArrayListExtra(ASYNC_KEY, s);
-           // startActivity(intent);
-
             if(completeTask){
                 bar.setVisibility(View.INVISIBLE);
                 startActivity(intent);
@@ -246,15 +237,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class ThreadGenerator implements Runnable {
-      /*  static final int STATUS_START = 0x00;
-        static final int STATUS_PROGRESS = 0x01;
-        static final int STATUS_STOP = 0x02;*/
 
         @Override
         public void run() {
             Message message = new Message();
-         /*   message.what = STATUS_START;
-            handler.sendMessage(message);*/
             Util util = new Util();
             for (int i = 0; i < countthread; i++) {
                 String s = util.getPassword(lengththread);

@@ -2,9 +2,9 @@ package com.example.android.homework02;
 
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,7 +25,7 @@ public class GeneratedPasswords extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generated_passwords);
-        scrollView = (ScrollView) findViewById(R.id.asyncScrollView);
+        scrollView = findViewById(R.id.asyncScrollView);
         threadLinearLayout = findViewById(R.id.threadLinearLayout);
         asyncLinearLayout = findViewById(R.id.asyncLinearLayout);
 
@@ -38,9 +38,15 @@ public class GeneratedPasswords extends MainActivity {
         if(threadArray.size()>0 && asyncArray.size()>0){
             new GetAsyncPassword().execute();
             threadpool.execute(new GetThreadPassword());
-            //new Thread(new GetThreadPassword()).start();
         }
 
+        findViewById(R.id.finishedButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GeneratedPasswords.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
