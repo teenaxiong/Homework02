@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     boolean completeTask = false;
     int threadCountInteger;
     int asyncCountInteger;
+    SeekBar.OnSeekBarChangeListener seekListener;
 
 
     @Override
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         asyncLenth = findViewById(R.id.asyncLengthTextView);
         intent = new Intent(MainActivity.this, GeneratedPasswords.class);
 
-        threadCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      /*  threadCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 i = i + 1;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+ 
         threadLengthSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -133,7 +135,48 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
-        });
+        });*/
+
+        seekListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                switch(seekBar.getId()){
+                    case R.id.threadCountSeekBar:
+                        i = i + 1;
+                        threadCount.setText(String.valueOf(i));
+                        countthread = i;
+                        break;
+                    case R.id.threadLabelSeekBar:
+                        i = i + 7;
+                        threadLenth.setText(String.valueOf(i));
+                        lengththread = i;
+                        break;
+                    case R.id.asyncCountSeekBar:
+                        i = i + 1;
+                        asyncCount.setText(String.valueOf(i));
+                        countasync = i;
+                        break;
+                    case R.id.asyncLengthSeekBar:
+                        i = i + 7;
+                        asyncLenth.setText(String.valueOf(i));
+                        lengthasync = i;
+                        break;
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        };
+
+
+        threadCountSeekBar.setOnSeekBarChangeListener(seekListener);
+        threadLengthSeekBar.setOnSeekBarChangeListener(seekListener);
+        asyncCountSeekBar.setOnSeekBarChangeListener(seekListener);
+        asyncLengthSeekBar.setOnSeekBarChangeListener(seekListener);
 
         findViewById(R.id.generateButton).setOnClickListener(new View.OnClickListener() {
             @Override
